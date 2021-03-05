@@ -41,6 +41,6 @@ SHELL ["/bin/bash", "-lc"]
 RUN pyenv update && \
 	pyenv install 3.7.2 && \
 	pyenv global 3.7.2 && \
-	pyenv install click urllib3 requests pyyaml && \
+#	pyenv install click urllib3 requests pyyaml && \
 	pip --no-cache-dir install --user --upgrade pip && \
 	pip --no-cache-dir install --user --upgrade pipenv
