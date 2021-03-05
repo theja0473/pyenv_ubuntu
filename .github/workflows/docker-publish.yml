@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
+      
       - name: Run tests
         run: |
           if [ -f docker-compose.test.yml ]; then
@@ -51,7 +51,7 @@ jobs:
         run: docker build . --file Dockerfile --tag $IMAGE_NAME
 
       - name: Log into registry
-        run: echo "c958a601-3d68-4273-b356-c5a1f96c6ac6" | docker login --username theja0473 --password-stdin
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login --username theja0473 --password-stdin
 
       - name: Push image
         run: |
