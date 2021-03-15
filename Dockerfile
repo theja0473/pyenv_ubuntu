@@ -36,6 +36,13 @@ RUN echo "eval \"\$(pyenv init -)\"" > ~/.bashrc && \
 # use login bash shell as default from now on, so that the bash_profile is sourced before any RUN command
 SHELL ["/bin/bash", "-lc"]
 
+RUN apt-get update \
+  && apt-get install -y python3-pip python3-dev \
+  && cd /usr/local/bin \
+  && ln -s /usr/bin/python3 python \
+  && pip3 --no-cache-dir install --upgrade pip \
+  && rm -rf /var/lib/apt/lists/*
+
 # install python 3.7.2, upgrade pip, and install pipenv
 RUN pyenv update && \
 	pyenv install 3.7.2 && \
@@ -43,3 +50,5 @@ RUN pyenv update && \
 #	pyenv install click urllib3 requests pyyaml && \
 	pip --no-cache-dir install --user --upgrade pip && \
 	pip --no-cache-dir install --user --upgrade pipenv
+		
+ENTRYPOINT ["/bin/bash"]
