@@ -13,7 +13,13 @@ ENV LANG en_US.UTF-8
 
 # install python, pip and pipenv
 RUN apt-get update && \
-    apt-get install -y sudo curl llvm git gcc make openssl wget net-tools libssl-dev libbz2-dev libreadline-dev libncurses5-dev libsqlite3-dev zlib1g-dev libffi-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev liblzma-dev tree unzip vim build-essential ca-certificates
+    apt-get install -y sudo curl llvm git gcc make openssl wget net-tools libssl-dev libbz2-dev libreadline-dev libncurses5-dev libsqlite3-dev zlib1g-dev python3-pip python3-dev libffi-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev liblzma-dev tree unzip vim build-essential ca-certificates
+
+RUN apt-get update \
+  && apt-get install -y python3-pip python3-dev \
+  && cd /usr/local/bin \
+  && ln -s /usr/bin/python3 python \
+  && pip3 --no-cache-dir install --upgrade pip
 
 # add the user theja, tribute to https://en.wikipedia.org/wiki/theja0473/ubuntu18.04-python3.7.2
 RUN useradd --create-home --no-log-init --system  theja && \
@@ -35,12 +41,6 @@ RUN echo "eval \"\$(pyenv init -)\"" > ~/.bashrc && \
 	
 # use login bash shell as default from now on, so that the bash_profile is sourced before any RUN command
 SHELL ["/bin/bash", "-lc"]
-
-RUN apt-get update \
-  && apt-get install -y python3-pip python3-dev \
-  && cd /usr/local/bin \
-  && ln -s /usr/bin/python3 python \
-  && pip3 --no-cache-dir install --upgrade pip
 
 # install python 3.7.2, upgrade pip, and install pipenv
 RUN pyenv update && \
